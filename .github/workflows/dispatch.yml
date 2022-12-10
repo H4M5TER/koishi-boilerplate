@@ -1,0 +1,15 @@
+﻿name: Dispatch
+on:
+  workflow_dispatch:
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out
+      uses: actions/checkout@v3
+    - name: Trigger docker build
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+      if: ${{ env.DOCKER_USERNAME != null}}
+      run: gh workflow run Docker
